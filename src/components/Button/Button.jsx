@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ButtonLoad } from './Button.styled';
-const Button = ({ onClick }) => {
+
+const CustomButton = ({ onClick }) => {
   return (
     <div>
       <ButtonLoad type="button" onClick={onClick}>
@@ -11,11 +12,10 @@ const Button = ({ onClick }) => {
   );
 };
 
-Button.propTypes = {
+CustomButton.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export default Button;
-
+export default CustomButton;
 
 

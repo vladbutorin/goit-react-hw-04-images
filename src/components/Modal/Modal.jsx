@@ -1,50 +1,45 @@
-import { Component } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Overlay, ModalWindow } from './Modal.styled';
 
-class Modal extends Component {
-  constructor(props) {
-    super(props);
-    this.el = document.createElement('div');
-  }
+const Modal = ({ largeImageURL, tags, onClose }) => {
+  const el = document.createElement('div');
 
-  componentDidMount() {
-    document.body.appendChild(this.el);
-    window.addEventListener('keydown', this.handleKeyDown);
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.code === 'Escape') {
+        onClose();
+      }
+    };
+
+    const handleBackdropClick = event => {
+      onClose();
+    };
+
+    document.body.appendChild(el);
+    window.addEventListener('keydown', handleKeyDown);
     document.body.style.overflow = 'hidden';
-  }
 
-  componentWillUnmount() {
-    document.body.removeChild(this.el);
-    window.removeEventListener('keydown', this.handleKeyDown);
-    document.body.style.overflow = 'visible';
-  }
+    el.addEventListener('click', handleBackdropClick);
 
-  handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      this.props.onClose();
-    }
-  };
+    return () => {
+      document.body.removeChild(el);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'visible';
+      el.removeEventListener('click', handleBackdropClick);
+    };
+  }, [el, onClose]);
 
-  handleBackdropClick = event => {
-    if (event.currentTarget === event.target) {
-      this.props.onClose();
-    }
-  };
-
-  render() {
-    const { largeImageURL, tags } = this.props;
-    return createPortal(
-      <Overlay onClick={this.handleBackdropClick}>
-        <ModalWindow>
-          <img src={largeImageURL} alt={tags} />
-        </ModalWindow>
-      </Overlay>,
-      this.el
-    );
-  }
-}
+  return createPortal(
+    <Overlay>
+      <ModalWindow>
+        <img src={largeImageURL} alt={tags} />
+      </ModalWindow>
+    </Overlay>,
+    el
+  );
+};
 
 Modal.propTypes = {
   largeImageURL: PropTypes.string.isRequired,

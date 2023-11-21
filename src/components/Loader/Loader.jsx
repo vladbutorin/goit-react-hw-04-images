@@ -1,20 +1,24 @@
-import { ColorRing } from 'react-loader-spinner';
-import { LodeWrapper } from './Loader.styled';
+import React from 'react';
+import { ThreeDots } from 'react-loader-spinner';
+import styled from 'styled-components';
 
-const Loader = () => {
+const LoaderWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const CustomLoader = () => {
   return (
-    <LodeWrapper>
-      <ColorRing
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-        colors={['#f8d703', '#cc06f4', '#f8d703', '#06d0f3', '#f8d703']}
+    <LoaderWrapper>
+      <ThreeDots
+        color="#f8d703"
+        height={80}
+        width={80}
       />
-    </LodeWrapper>
+    </LoaderWrapper>
   );
 };
 
-export default Loader;
+export default CustomLoader;
