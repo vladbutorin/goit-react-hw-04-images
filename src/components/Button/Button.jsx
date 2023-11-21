@@ -18,4 +18,4 @@ Button.propTypes = {
 export default Button;
 
 
-console
+
